@@ -1,0 +1,15 @@
+{
+    "files.associations": {
+        "vector": "cpp",
+        "xtree": "cpp",
+        "algorithm": "cpp",
+        "xstring": "cpp",
+        "deque": "cpp",
+        "initializer_list": "cpp",
+        "queue": "cpp",
+        "type_traits": "cpp",
+        "xutility": "cpp",
+        "utility": "cpp",
+        "iostream": "cpp"
+    }
+}
