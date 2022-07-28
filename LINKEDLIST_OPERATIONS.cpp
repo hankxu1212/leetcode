@@ -82,5 +82,13 @@ ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
     return dummy->next;
 }
 
+ListNode* mergeKLists(vector<ListNode*>& lists) {
+    ListNode* res;
+    for(int i=0; i < lists.size(); i++){
+        res = mergeTwoLists(res, lists[i]);
+    }
+    return res;
+}
+
 int main(){
 }
