@@ -53,7 +53,7 @@ ListNode* removeNthFromEnd(ListNode* head, int n) {
     return toList(v);
 }
 
-ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+ListNode* mergeTwoLists(ListNode* &list1, ListNode* &list2) {
     ListNode *i = list1;
     ListNode *j = list2;
     ListNode *res = new ListNode();

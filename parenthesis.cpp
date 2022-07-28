@@ -24,6 +24,27 @@ int longestValidParentheses(string s) {
     return m;
 }
 
+//Util function for generateParenthesis
+void gen(int l, int r, int n, vector<string> &res, string curr){
+    if(l == n && r == n){
+        res.push_back(curr);
+    }
+    //add (
+    if(l < n && l >= r){
+        gen(l+1,r,n,res, curr + "(");
+    }
+    //add )
+    if(r < n && l > r){
+        gen(l,r+1,n,res, curr + ")");
+    }
+}
+vector<string> generateParenthesis(int n){
+    vector<string> res;
+    gen(1,0,n,res,"(");
+    return res;
+}
+
 int main(){
-    cout << longestValidParentheses("())");
+    vector<string> v = generateParenthesis(3);
+    return 0;
 }
