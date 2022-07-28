@@ -53,5 +53,34 @@ ListNode* removeNthFromEnd(ListNode* head, int n) {
     return toList(v);
 }
 
+ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+    ListNode *i = list1;
+    ListNode *j = list2;
+    ListNode *res = new ListNode();
+    ListNode *dummy = res;
+    while(i != NULL && j != NULL){
+        if(i->val < j->val){
+            res->next = i;
+            i = i->next;
+        }
+        else{
+            res->next = j;
+            j = j->next;
+        }
+        res = res->next;
+    }
+    while(i != NULL){
+        res->next = i;
+        res = res->next;
+        i = i->next;
+    }
+    while(j != NULL){
+        res->next = j;
+        res = res->next;
+        j = j->next;
+    }
+    return dummy->next;
+}
+
 int main(){
 }
