@@ -17,7 +17,8 @@ struct ListNode {
     ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
-ListNode* revList(ListNode* head){
+//ENSURES: inplace reverse
+void revList(ListNode* &head){
     ListNode* curr = head;
     ListNode* prev = NULL, *next = NULL;
     while(curr != NULL){
@@ -27,7 +28,6 @@ ListNode* revList(ListNode* head){
         curr = next;
     }
     head = prev;
-    return head;
 }
 
 vector<int> toVec(ListNode* head){
@@ -90,5 +90,43 @@ ListNode* mergeKLists(vector<ListNode*>& lists) {
     return res;
 }
 
+ListNode* swapPairs(ListNode* head) {
+    if(head == NULL || head->next == NULL) return head;
+    ListNode *tmp = head->next;
+    head->next = tmp->next;
+    tmp->next = head;
+    head->next = swapPairs(head->next);
+    return head;
+}
+
+ ListNode* reverseKGroup(ListNode* head, int k) {
+    if (head == NULL) return head;
+
+    auto nxtHead = head;
+    for (int i = 0; i < k; ++i) {
+        if (nxtHead == NULL) return head;
+        nxtHead = nxtHead->next;
+    }
+
+    auto curr = head;
+    ListNode* prev = NULL;
+
+    for (int i = 0; i < k; ++i) {
+        auto temp = curr;
+        curr = curr->next;
+        temp->next = prev;
+        prev = temp;
+    }
+
+    head->next = reverseKGroup(nxtHead, k);
+
+    return prev;
+}
+
 int main(){
+    ListNode *l = new ListNode();
+    l->next = new ListNode(1);
+    l->next->next = new ListNode(2);
+    l->next->next->next = new ListNode(3);
+    l->next->next->next->next = new ListNode(4);
 }
