@@ -15,3 +15,8 @@ vector<int> toDistinct(vector<int> vec){
     vec.assign( s.begin(), s.end() );
     return vec;
 }
+
+void removeElement(vector<int>& v, int val) {
+    //erase-remove idiom
+    v.erase(std::remove(v.begin(), v.end(), val), v.end());
+}
