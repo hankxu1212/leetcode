@@ -49,6 +49,16 @@ vector<int> searchRange(vector<int>& nums, int target) {
     return search(nums, target, 0, nums.size() - 1);    
 }
 
+vector<vector<int>> permute(vector<int>& nums) {
+    sort(nums.begin(),nums.end());
+    vector<vector<int>>v;
+    do{
+        v.push_back(nums);
+    }
+    while(next_permutation(nums.begin(),nums.end()));
+    return v;
+}
+
 int main(){
     vector<int> v = {5,7,7,8,8,10};
     searchRange(v, 8);
