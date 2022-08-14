@@ -7,6 +7,7 @@
 #include <ctype.h>
 #include <math.h>
 #include <set>
+#include <stack>
 using namespace std;
 
 //converts to a set first then dump back
@@ -49,6 +50,7 @@ vector<int> searchRange(vector<int>& nums, int target) {
     return search(nums, target, 0, nums.size() - 1);    
 }
 
+//unique permutations (if contains duplicates)
 vector<vector<int>> permute(vector<int>& nums) {
     sort(nums.begin(),nums.end());
     vector<vector<int>>v;
@@ -57,6 +59,29 @@ vector<vector<int>> permute(vector<int>& nums) {
     }
     while(next_permutation(nums.begin(),nums.end()));
     return v;
+}
+
+vector<vector<int>> merge(vector<vector<int>> &intervals){
+    sort(intervals.begin(), intervals.end());
+    stack<vector<int>> s;
+    vector<vector<int>> res;
+    for(auto &elem : intervals){
+        if(s.empty()) 
+            s.push(elem);
+        else if(elem[0] > s.top()[1]){
+            res.push_back(s.top());
+            s.pop();
+            s.push(elem);
+        }
+        else if(elem[1] <= s.top()[1]){
+            continue;
+        }
+        else{
+            s.top()[1] = elem[1];
+        }
+    }
+    res.push_back(s.top());
+    return res;
 }
 
 int main(){
