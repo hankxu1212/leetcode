@@ -8,8 +8,23 @@
 #include <math.h>
 #include <set>
 #include <stack>
+#include <bitset>
 using namespace std;
 
+//print2D
+void print2D(vector<vector<int>> v){
+    cout << '[';
+    for(auto &x : v){
+        cout << '[';
+        for(auto &e : x){
+            cout << e << ' ';
+        }
+        cout << ']';
+    }
+    cout << ']' << '\n';
+}
+
+//to Distinct vectors
 //converts to a set first then dump back
 vector<int> toDistinct(vector<int> vec){
     set<int> s( vec.begin(), vec.end() );
@@ -17,11 +32,13 @@ vector<int> toDistinct(vector<int> vec){
     return vec;
 }
 
+//removes 'val'
 void removeElement(vector<int>& v, int val) {
     //erase-remove idiom
     v.erase(std::remove(v.begin(), v.end(), val), v.end());
 }
 
+//returns {i,j} such that i is the first occurance of target and j is the last
 vector<int> search(vector<int>& nums, int x, int i, int j){
     while(i <= j){
         int mid = i+(j-i)/2;
@@ -45,7 +62,6 @@ vector<int> search(vector<int>& nums, int x, int i, int j){
     }
     return {-1,-1};
 }
-
 vector<int> searchRange(vector<int>& nums, int target) {
     return search(nums, target, 0, nums.size() - 1);    
 }
@@ -61,6 +77,7 @@ vector<vector<int>> permute(vector<int>& nums) {
     return v;
 }
 
+//merge intervals
 vector<vector<int>> merge(vector<vector<int>> &intervals){
     sort(intervals.begin(), intervals.end());
     stack<vector<int>> s;
@@ -81,6 +98,38 @@ vector<vector<int>> merge(vector<vector<int>> &intervals){
         }
     }
     res.push_back(s.top());
+    return res;
+}
+
+//powerset (cascading approach)
+vector<vector<int>> powerSet(vector<int>& nums) {
+    vector<vector<int>> res = {{}};
+    for(int i=0;i<nums.size();i++){
+        int k = res.size();
+        for(int j=0;j<k;j++){
+            vector<int> new_sol(res[j]);
+            new_sol.push_back(nums[i]);
+            res.push_back(new_sol);
+        }
+    }
+    return res;
+}
+
+//powerset (bitmask approach)
+vector<vector<int>> subsets(vector<int>& nums) {
+    vector<vector<int>> res = {};
+    int n = nums.size();
+    for(int i = 0; i < pow(2,n); ++i){
+        string bitmask = bitset<32>(i).to_string();
+        cout << bitmask << '\n';
+        vector<int> new_sol;
+        for(int i=0;i < n;i++){
+            int index = 32 - n + i;
+            if(bitmask[index] == '1')
+                new_sol.push_back(nums[i]);
+        }
+        res.push_back(new_sol);
+    }
     return res;
 }
 
