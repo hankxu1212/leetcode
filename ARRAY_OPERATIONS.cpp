@@ -120,6 +120,8 @@ vector<vector<int>> subsets(vector<int>& nums) {
     vector<vector<int>> res = {};
     int n = nums.size();
     for(int i = 0; i < pow(2,n); ++i){
+        //creates bitmask with length = 32
+        //i : integer
         string bitmask = bitset<32>(i).to_string();
         cout << bitmask << '\n';
         vector<int> new_sol;
