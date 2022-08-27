@@ -135,7 +135,43 @@ vector<vector<int>> subsets(vector<int>& nums) {
     return res;
 }
 
+//return next/prev small element for heights at each index
+//invariant : height[st[i]] > height[st[j]] for all i > j
+//            or st is the indices of height sorted in increasing order 
+//                          (decreasing order from top of the stack) with respect to height
+vector<int> nextsmall(vector<int> heights,int n){
+    vector<int> res(n);
+    stack<int> st;
+    
+    for(int i=n-1; i>=0; i--){
+        while(!st.empty() && heights[st.top()]>=heights[i])
+            st.pop();
+        if(st.empty())
+            res[i] = -1;
+        else
+            res[i] = st.top();
+        st.push(i);
+    }
+    return res;
+    
+}
+vector<int> prevsmall(vector<int> heights,int n){
+    vector<int> res(n);
+    stack<int> st;
+    
+    for(int i=0; i<n; i++){
+        while(!st.empty() && heights[st.top()]>=heights[i])
+            st.pop();
+        if(st.empty())
+            res[i] = -1;
+        else
+            res[i] = st.top();
+        st.push(i);
+    }
+    return res;   
+}
+
 int main(){
-    vector<int> v = {5,7,7,8,8,10};
-    searchRange(v, 8);
+    vector<int> v = {10,10,8,7,6,5};
+    nextsmall(v, v.size());
 }
