@@ -4,7 +4,7 @@
 		{
 			"type": "cppbuild",
 			"label": "C/C++: g++.exe build active file",
-			"command": "C:\\msys64\\mingw64\\bin\\g++.exe",
+			"command": "A:\\programming_support\\msys64\\mingw64\\bin\\g++.exe",
 			"args": [
 				"-fdiagnostics-color=always",
 				"-g",
@@ -19,12 +19,12 @@
 				"$gcc"
 			],
 			"group": "build",
-			"detail": "compiler: C:\\msys64\\mingw64\\bin\\g++.exe"
+			"detail": "compiler: A:\\programming_support\\msys64\\mingw64\\bin\\g++.exe"
 		},
 		{
 			"type": "cppbuild",
 			"label": "C/C++: g++.exe build active file",
-			"command": "C:\\msys64\\mingw64\\bin\\g++.exe",
+			"command": "A:\\programming_support\\msys64\\mingw64\\bin\\g++.exe",
 			"args": [
 				"-fdiagnostics-color=always",
 				"-g",
@@ -42,7 +42,7 @@
 				"kind": "build",
 				"isDefault": true
 			},
-			"detail": "compiler: C:\\msys64\\mingw64\\bin\\g++.exe"
+			"detail": "compiler: A:\\programming_support\\msys64\\mingw64\\bin\\g++.exe"
 		}
 	]
 }
