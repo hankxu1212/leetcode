@@ -171,6 +171,14 @@ vector<int> prevsmall(vector<int> heights,int n){
     return res;   
 }
 
+vector<pair<int,int>> zip(vector<int> v){
+    vector<pair<int,int>> res(v.size());
+    for(int i=0;i<v.size();i++){
+        res[i] = {v[i],i};
+    }
+    return res;
+}
+
 int main(){
     vector<int> v = {10,10,8,7,6,5};
     nextsmall(v, v.size());
