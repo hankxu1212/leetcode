@@ -62,6 +62,7 @@ void Graph::topological_DFS_h(int v, bool visited[], vector<int> &s){
     s.push_back(v);
 }
 
+//ENSURES: creates a topological sorting of Graph object
 vector<int> Graph::topological_DFS(){
     bool visited[n] = {false};
     vector<int> s;
@@ -121,8 +122,11 @@ vector<int> Graph::dijkstra(int s){
 vector<int> Graph::bellman_ford(int s){
     vector<int> dist(n, INT_MAX);
     dist[0] = 0;
+
+    //iterates through V
     for(int i=0;i<n+1;i++){
         bool flag = false;
+        //iterates through E
         for(int j=0;j<n;j++){
             //source vertex: j || dest vertex : v.first || weight = v.second
             for(auto &v : adj[j]){
