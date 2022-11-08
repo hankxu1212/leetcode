@@ -13,12 +13,15 @@ class Graph{
     vector<vector<edge>> adj;
     // adj[i] = (j, w) is the edge i -> j with weight w
     void DFS_h(int v, bool visited[]); 
+    void topological_DFS_h(int v, bool visited[], vector<int> &s);
 public:
     Graph(int V);
     void addEdge(int v, int u, int w);
     vector<int> dijkstra(int s);
+    vector<int> bellman_ford(int s);
     void DFS(int v);
     void BFS(int v);
+    vector<int> topological_DFS();
 };
 
 Graph::Graph(int V){
@@ -28,22 +31,46 @@ Graph::Graph(int V){
 
 void Graph::addEdge(int v, int u, int w){
     adj[v].push_back(make_pair(u,w));
-    adj[u].push_back(make_pair(v,w));
+    // uncomment next line if undirected
+    //adj[u].push_back(make_pair(v,w));
 }
 
 void Graph::DFS_h(int v, bool visited[]){
     visited[v] = true;
-    cout << v << " ";
-    for (auto &i : adj[v])
+    //cout << v << " ";
+    for (auto &i : adj[v]){
         if (!visited[i.first]){
             DFS_h(i.first, visited);
         }
+    }
 }
 
 void Graph::DFS(int v){
     bool visited[n] = {false};
     DFS_h(v, visited);
 }
+
+//ENSURES: s is modified to be in reverse topological order
+void Graph::topological_DFS_h(int v, bool visited[], vector<int> &s){
+    visited[v] = true;
+    for(auto &i : adj[v]){
+        if(!visited[i.first]){
+            topological_DFS_h(i.first, visited, s);
+        }
+    }
+    cout << v << " ";
+    s.push_back(v);
+}
+
+vector<int> Graph::topological_DFS(){
+    bool visited[n] = {false};
+    vector<int> s;
+    for(int i=0; i<n; i++)
+        topological_DFS_h(i, visited, s);
+    reverse(s.begin(), s.end());
+    return s;
+}
+
 
 void Graph::BFS(int v){
     bool visited[n] = {false};
@@ -87,12 +114,37 @@ vector<int> Graph::dijkstra(int s){
             }
         }
     }
- 
-    printf("Vertex Distance from Source\n");
-    for (int i = 0; i < n; ++i)
-        printf("%d \t\t %d\n", i, dist[i]);
+
     return dist;
 }
+
+vector<int> Graph::bellman_ford(int s){
+    vector<int> dist(n, INT_MAX);
+    dist[0] = 0;
+    for(int i=0;i<n+1;i++){
+        bool flag = false;
+        for(int j=0;j<n;j++){
+            //source vertex: j || dest vertex : v.first || weight = v.second
+            for(auto &v : adj[j]){
+                if(dist[j] != INT_MAX && dist[j] + v.second < dist[v.first]){
+                    flag = true;
+                    dist[v.first] = dist[j] + v.second;
+                }
+            }
+        }
+
+        if(flag && i == n){
+            //we were able to relax the edges further on nth iteration ==> NEGATIVE CYCLE
+            cout << "Negative Cycle detected\n";
+        }
+        else if(!flag){
+            //no changes were made ==> WE ARE DONE!
+            return dist;
+        }
+    }
+    return dist;
+}
+
 // ----------------------- adjacency list representation -------------------------------- //
 
 // ----------------------- adjacency matrix representation -------------------------------- //
@@ -118,7 +170,7 @@ vector<int> dijkstra_matrix(vector<vector<int>> G, int s, int n)
     for (int count = 0; count < n - 1; count++) {
         int u = minDistance(dist, visited, n);
         visited[u] = true;
- 
+        
         for (int v = 0; v < n; v++)
             if (!visited[v] && G[u][v] && dist[u] != INT_MAX && dist[u] + G[u][v] < dist[v])
                 dist[v] = dist[u] + G[u][v];
@@ -127,27 +179,23 @@ vector<int> dijkstra_matrix(vector<vector<int>> G, int s, int n)
 }
 // ----------------------- adjacency matrix representation -------------------------------- //
 
+void printVec(vector<int> v){
+    for (int i = 0; i < v.size(); ++i)
+        printf("%d \t\t %d\n", i, v[i]);
+}
+
 int main()
 {
-    Graph g(9);
-    g.addEdge(0, 1, 4);
-    g.addEdge(0, 7, 8);
-    g.addEdge(1, 2, 8);
-    g.addEdge(1, 7, 11);
-    g.addEdge(2, 3, 7);
-    g.addEdge(2, 8, 2);
-    g.addEdge(2, 5, 4);
-    g.addEdge(3, 4, 9);
-    g.addEdge(3, 5, 14);
-    g.addEdge(4, 5, 10);
-    g.addEdge(5, 6, 2);
-    g.addEdge(6, 7, 1);
-    g.addEdge(6, 8, 6);
-    g.addEdge(7, 8, 7);
-    g.dijkstra(0);
+    int n = 6;
+    Graph g(n);
+    g.addEdge(5, 2,0);
+    g.addEdge(5, 0,0);
+    g.addEdge(4, 0,0);
+    g.addEdge(4, 1,0);
+    g.addEdge(2, 3,0);
+    g.addEdge(3, 1,0);
 
-    g.BFS(0);
-    cout << "\n";
-    g.DFS(0);
+    //printVec(g.dijkstra(0));
+    printVec(g.topological_DFS());
     return 0;
 }
